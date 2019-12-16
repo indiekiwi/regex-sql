@@ -41,7 +41,7 @@
     try {
     if ($output = $processor->generate()) {
         ?>
-        <table id="outputTable" class="table table-bordered table-hover"">
+        <table id="outputTable" class="table table-bordered table-hover table-sm"">
         <thead>
         <tr>
             <?php foreach ($output as $row) {

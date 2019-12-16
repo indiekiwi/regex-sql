@@ -5,6 +5,8 @@
  */
 class TempDb
 {
+    const BATCH_SIZE = 500;
+
     const TEMP_TABLE_PLACEHOLDER = 'table_1';
 
     /**
@@ -52,8 +54,9 @@ class TempDb
     {
         $this->_createTable($this->_columns);
 
-        foreach ($rows as $row) {
-            $this->_insertRow($row);
+
+        foreach (array_chunk($rows, self::BATCH_SIZE) as $rows) {
+            $this->_insertRows($rows);
         }
     }
 
@@ -76,30 +79,37 @@ class TempDb
     }
 
     /**
-     * @param array $row
+     * @param array $rows
      */
-    private function _insertRow($row)
+    private function _insertRows($rows)
     {
-        $columnList = $valuesList = [];
+        $columnList = [];
         foreach ($this->_columns as $config) {
             $columnList[] = $config['name'];
         }
-        foreach ($row as $value) {
-            if (is_numeric($value)) {
-                $valuesList[] = $value;
-            } else {
-                $valuesList[] = "\"$value\"";
+        $insertRows = [];
+        foreach ($rows as $row) {
+            $formattedValues = [];
+            foreach ($row as $value) {
+                if (is_numeric($value)) {
+                    $formattedValues[] = $value;
+                } else {
+                    $formattedValues[] = "\"$value\"";
+                }
             }
+            $insertRows[] = '(' . implode(', ', $formattedValues) . ')';
         }
 
-        $query = sprintf(
-            'INSERT INTO %s (%s) VALUES (%s)',
-            $this->_tableName,
-            implode(', ', $columnList),
-            implode(', ', $valuesList)
-        );
+        if ($insertRows) {
+            $query = sprintf(
+                'INSERT INTO %s (%s) VALUES %s',
+                $this->_tableName,
+                implode(', ', $columnList),
+                implode(', ', $insertRows)
+            );
 
-        $this->_db->exec($query);
+            $this->_db->exec($query);
+        }
     }
 
     /**
