@@ -150,39 +150,18 @@ GROUP BY col_1;"
                             </tr>
                             </thead>
                             <tbody>
-                            <tr id='capture1'>
-                                <td>$1</td>
-                                <td><input type="text" name='col1' value="col_1" class="form-control"/></td>
-                                <td><input type="text" name='type1' value='VARCHAR(255)' class="form-control"/></td>
+                            <?php for ($i = 1; $i <= 100; $i++) { ?>
+                            <tr id='capture<?= $i ?>'>
+                                <td>$<?= $i ?></td>
+                                <td><input type="text" name='col<?= $i ?>' value="col_<?= $i ?>" class="form-control"/></td>
+                                <td><input type="text" name='type<?= $i ?>' value='VARCHAR(255)' class="form-control"/></td>
                             </tr>
-                            <tr id='capture2'>
-                                <td>$2</td>
-                                <td><input type="text" name='col2' value="col_2" class="form-control"/></td>
-                                <td><input type="text" name='type2' value='VARCHAR(255)' class="form-control"/></td>
-                            </tr>
-                            <tr id='capture3'>
-                                <td>$3</td>
-                                <td><input type="text" name='col3' value="col_3" class="form-control"/></td>
-                                <td><input type="text" name='type3' value='VARCHAR(255)' class="form-control"/></td>
-                            </tr>
-                            <tr id='capture4'></tr>
+                            <?php } ?>
+                            <tr id='capture<?= $i ?>'></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="button" id="add_row" class="btn btn-success btn-block">
-                            Add Capture Group
-                        </button>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" id="delete_row" class="btn btn-danger btn-block">
-                            Remove Capture Group
-                        </button>
-                    </div>
-                </div>
-                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary btn-block">
