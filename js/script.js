@@ -54,7 +54,7 @@ function addCaptureGroup()
     if (typeof colData[idxCaptureGroup] !== 'undefined') {
         addCol = colData[idxCaptureGroup];
     }
-    var addType = "VARCHAR(255)";
+    var addType = "TEXT";
     if (typeof typeData[idxCaptureGroup] !== 'undefined') {
         addType = typeData[idxCaptureGroup];
     }

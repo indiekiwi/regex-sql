@@ -2,6 +2,7 @@
 body {
     background-color: #ECF0F1;
     color: #34495E;
+    font-family: 'PT Mono', monospace;
 }
 
 #accordion-container {
@@ -10,4 +11,26 @@ body {
 
 .nav-space {
     height: 100px;
+}
+
+pre {
+    margin: 0;
+}
+
+.desc {
+    font-size: 0.8em;
+    color: #999;
+}
+
+p {
+    margin: 0.4em 0;
+}
+
+.tab-pane {
+    background: #FFFFFF;
+}
+
+.col-md-12 hr {
+    margin: 0.25em;
+    opacity: 0.5;
 }
