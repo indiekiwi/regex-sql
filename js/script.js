@@ -25,7 +25,7 @@ var typeData = [];
 /**
  * @todo Load correct number of capture groups onload when using back button
  */
-$( document ).ready(function() {
+$(document).ready(function () {
     automateCaptureGroup();
 });
 
@@ -48,8 +48,7 @@ $("#delete_row").click(function () {
 /**
  * Add the Capture Group Row
  */
-function addCaptureGroup()
-{
+function addCaptureGroup() {
     var addCol = "col_" + idxCaptureGroup;
     if (typeof colData[idxCaptureGroup] !== 'undefined') {
         addCol = colData[idxCaptureGroup];
@@ -72,8 +71,7 @@ function addCaptureGroup()
 /**
  * Remove the Capture Group Row
  */
-function deleteCaptureGroup()
-{
+function deleteCaptureGroup() {
     if (idxCaptureGroup > 1) {
         colData[idxCaptureGroup - 1] = $("input[name=col" + (idxCaptureGroup - 1) + "]").val();
         typeData[idxCaptureGroup - 1] = $("input[name=type" + (idxCaptureGroup - 1) + "]").val();
@@ -86,8 +84,7 @@ function deleteCaptureGroup()
 /**
  * Sync the capture groups automatically
  */
-function automateCaptureGroup()
-{
+function automateCaptureGroup() {
     if (autoCaptureGroup) {
         var currentValue = $('#regex-pattern').val();
         currentValue = currentValue.replace(/\\\(/g, 'VOID');
@@ -119,7 +116,7 @@ function automateCaptureGroup()
  * @supported `(a)` only; +1 capture group
  *             no support for `(a)?` for +0/1 capture group
  */
-$('#regex-pattern').on('input',function(){
+$('#regex-pattern').on('input', function () {
     automateCaptureGroup();
 });
 
@@ -134,3 +131,16 @@ $('[data-toggle="collapse"]').on('click', function (e) {
         }
     }
 });
+
+/**
+ * Toggle
+ */
+function toggle(e, className) {
+    if (e.checked) {
+        console.log(className + ' hide');
+        $('.' + className).css('display', 'block');
+    } else {
+        console.log(className + ' show');
+        $('.' + className).css('display', 'none');
+    }
+}

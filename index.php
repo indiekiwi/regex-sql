@@ -12,6 +12,7 @@ try {
 }
 $c1 = 4;
 $c2 = 12 - $c1;
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -89,6 +90,9 @@ $c2 = 12 - $c1;
         <li class="nav-item">
             <a class="nav-link <?= $hasResult ? 'active' : '' ?>" data-toggle="tab" href="#tab2">Result</a>
         </li>
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" data-toggle="tab" href="#tab3">Save/Load</a>-->
+<!--        </li>-->
     </ul>
     <div class="tab-content">
         <!--
@@ -99,12 +103,20 @@ $c2 = 12 - $c1;
                 <div class="col-md-12">
                     <form action="#" method="POST" role="form" enctype="multipart/form-data">
                         <div class="row">
-                            <!--
-                                DATA
-                            -->
+                            <div class="col-md-12 non-priority"><h5>Options</h5></div>
+                            <div class="col-md-<?= $c1 ?> right non-priority">
+                                Show Hints
+                            </div>
+                            <div class="col-md-<?= $c2 ?>">
+                                <input type="checkbox" onchange="toggle(this, 'tool-desc')" autocomplete="off">
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12"><h3>Data</h3></div>
                             <div class="col-md-<?= $c1 ?>">
-                                DATA
-                                <div class="desc">
+                                <div class="tool-desc">
                                     <p>Each line in the <i>DATA</i> is parsed using the <i>REGEX</i> pattern</p>
                                     <p>Only <i>DATA</i> less
                                         than <?= number_format(Processor::RETAIN_DATA_MAX_LENGTH) ?>
@@ -113,77 +125,36 @@ $c2 = 12 - $c1;
                                         characters</p>
                                 </div>
                             </div>
-                            <div class="col-md-<?= $c2 ?>">
-                                <div id="accordion-container" class="container">
-                                    <div id="accordion">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <a class="card-link" data-toggle="collapse"
-                                                   href="#collapseDataString">
-                                                    Raw Text
-                                                </a>
-                                            </div>
-                                            <div id="collapseDataString" class="collapse show"
-                                                 data-parent="#accordion">
-                                                <div class="card-body">
-                                                    <div class="form-group">
-                                        <textarea class="form-control" name="direct-data"
-                                                  rows="3"><?= $processor->retrieveData() ?>
-                                        </textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <a class="collapsed card-link" data-toggle="collapse"
-                                                   href="#collapseDataUpload">
-                                                    Upload File
-                                                </a>
-                                            </div>
-                                            <div id="collapseDataUpload" class="collapse" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    <div class="form-group">
-                                                        <input type="file" class="form-control-file text-center"
-                                                               name="file"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
-                        <div class="row">
-                            <!--
-                                TABLE NAME
-                            -->
+                            <div class="col-md-<?= $c2 ?>"></div>
                             <div class="col-md-<?= $c1 ?>">
-                                TABLE NAME
-                                <div class="desc">
-                                    <p>Custom table name for use in <i>MYSQL QUERY</i></p>
-                                </div>
+                                <div class="col-md-12 right">Upload File</div>
                             </div>
                             <div class="col-md-<?= $c2 ?>">
                                 <div class="form-group">
-                                    <input type="text"
-                                           class="form-control"
-                                           id="table-name"
-                                           name="table-name"
-                                           value="<?= $processor->retrieveTableName() ?: 'tb' ?>"
-                                           placeholder="table_name"/>
+                                    <input type="file" class="form-control-file text-center"
+                                           name="file"/>
                                 </div>
                             </div>
+                            <div class="col-md-<?= $c1 ?>">
+                                <div class="col-md-12 right">...or paste Raw Text</div>
+                            </div>
+                            <div class="col-md-<?= $c2 ?>">
+                                <div class="form-group">
+                                        <textarea class="form-control" name="direct-data"
+                                                  rows="1"><?= $processor->retrieveData() ?></textarea>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
+
                         <div class="row">
                             <!--
                                 REGEX
                             -->
-                            <div class="col-md-<?= $c1 ?>">
-                                REGEX
-                                <div class="desc">
+                            <div class="col-md-12"><h3>Regex</h3></div>
+                            <div class="col-md-<?= $c1 ?> right">
+                                Regular Expression
+                                <div class="tool-desc">
                                     <p>Regular expression to define the <i>DATA</i> structure</p>
                                     <p>Include any flags and the delimiters</p>
                                     <p>Use (round brackets) for creating <i>CAPTURE GROUPS</i></p>
@@ -200,36 +171,20 @@ $c2 = 12 - $c1;
                                 </div>
                             </div>
                         </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
                         <div class="row">
-                            <!--
-                                MYSQL QUERY
-                            -->
-                            <div class="col-md-<?= $c1 ?>">
-                                MYSQL QUERY
-                                <div class="desc">
-                                    <p>SELECT query to retrieve the result set</p>
-                                </div>
-                            </div>
-                            <div class="col-md-<?= $c2 ?>">
-                                <div class="form-group">
-                    <textarea class="form-control"
-                              name="sql-query"
-                              placeholder="SELECT * FROM tb;"
-                              rows="3"><?= $processor->retrieveSqlQuery() ?></textarea>
-                                </div>
+                            <div class="col-md-12">
+                                <hr>
                             </div>
                         </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
                         <div class="row">
                             <!--
                                 CAPTURE GROUPS
                             -->
-                            <div class="col-md-<?= $c1 ?>">
+                            <div class="col-md-<?= $c1 ?> right">
                                 CAPTURE GROUPS
-                                <div class="desc">
+                                <div class="tool-desc">
                                     <p>Capture groups are AUTOMATICALLY added based on the <i>REGEX</i></p>
-                                    <p>Defines MYSQL Columns for the <i>MYSQL QUERY</i></p>
+                                    <p>Defines SQL Columns for the <i>SQL QUERY</i></p>
                                 </div>
                             </div>
                             <div class="col-md-<?= $c2 ?>">
@@ -274,14 +229,69 @@ $c2 = 12 - $c1;
                                 </div>
                             </div>
                         </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--
+                                TABLE NAME
+                            -->
+                            <div class="col-md-12"><h3>SQL</h3></div>
+                            <div class="col-md-<?= $c1 ?> right">
+                                TABLE NAME
+                                <div class="tool-desc">
+                                    <p>Custom table name for use in <i>SQL QUERY</i></p>
+                                </div>
+                            </div>
+                            <div class="col-md-<?= $c2 ?>">
+                                <div class="form-group">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="table-name"
+                                           name="table-name"
+                                           value="<?= $processor->retrieveTableName() ?: 'tb' ?>"
+                                           placeholder="table_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--
+                                SQL QUERY
+                            -->
+                            <div class="col-md-<?= $c1 ?> right">
+                                SQL QUERY
+                                <div class="tool-desc">
+                                    <p>SELECT query to retrieve the result set</p>
+                                </div>
+                            </div>
+                            <div class="col-md-<?= $c2 ?>">
+                                <div class="form-group">
+                    <textarea class="form-control"
+                              name="sql-query"
+                              placeholder="SELECT * FROM tb;"
+                              rows="3"><?= $processor->retrieveSqlQuery() ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--
                                 DESCRIPTION
                             -->
-                            <div class="col-md-<?= $c1 ?>">
+                            <div class="col-md-<?= $c1 ?> right non-priority">
                                 DESCRIPTION
-                                <div class="desc">
+                                <div class="tool-desc">
                                     <p>Title for the result set</p>
                                 </div>
                             </div>
@@ -295,7 +305,11 @@ $c2 = 12 - $c1;
                                 </div>
                             </div>
                         </div>
-                        <div class="row"><div class="col-md-12"><hr></div></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
                         <div class="row">
                             <!--
                                 SUBMIT
@@ -310,19 +324,42 @@ $c2 = 12 - $c1;
                     </form>
                 </div>
             </div>
+            <br>
         </div>
         <!--
             Tab: Results
         -->
-        <div id="tab2" class="container tab-pane <?= $hasResult ? 'active' : 'fade' ?>">
-            <br>
+        <div id="tab2" class="container tab-pane <?= $hasResult ? 'active' : 'fade' ?>"><br>
+            <div class="row">
+                <div class="col-md-12 non-priority">
+                    <h5>Options</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-<?= $c1 ?> right non-priority">
+                    Show Line Numbers
+                </div>
+                <div class="col-md-<?= $c2 ?>">
+                    <input type="checkbox" onchange="toggle(this, 'result-line-number')" autocomplete="off">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-<?= $c1 ?> right non-priority">
+                    Show Summary
+                </div>
+                <div class="col-md-<?= $c2 ?>">
+                    <input type="checkbox" onchange="toggle(this, 'result-info')" autocomplete="off">
+                </div>
+            </div>
+            <hr>
             <?php if ($hasResult) { ?>
                 <div class="row">
                     <div class="col-md-12">
-                        <h3><?= $processor->retrieveDescription() ?></h3>
+                        <center><h3><?= $processor->retrieveDescription() ?></h3></center>
                         <table id="outputTable" class="table table-bordered table-hover table-sm">
                             <thead>
                             <tr>
+                                <th class="result-line-number">#</th>
                                 <?php foreach ($output as $row) {
                                     foreach ($row as $header => $v) { ?>
                                         <th><?= $header ?></th>
@@ -333,8 +370,9 @@ $c2 = 12 - $c1;
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($output as $row) { ?>
+                            <?php foreach ($output as $i => $row) { ?>
                                 <tr>
+                                    <td class="result-line-number"><?= $i ?></td>
                                     <?php foreach ($row as $v) { ?>
                                         <td>
                                             <?= $v ?>
@@ -346,12 +384,32 @@ $c2 = 12 - $c1;
                         </table>
                     </div>
                 </div>
+                <hr>
+                <div class="result-info">
+                    <h3 class="non-priority">Stats</h3>
+                    <div class="row">
+                        <div class="col-md-<?=$c1?> right non-priority">Rows:</div>
+                        <div class="col-md-<?=$c2?>"><?= count($output) ?></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-<?=$c1?> right non-priority">Query:</div>
+                        <div class="col-md-<?=$c2?>"><pre><?= $processor->retrieveSqlQuery() ?></pre></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-<?=$c1?> right non-priority">Regex:</div>
+                        <div class="col-md-<?=$c2?>"><pre><?= $processor->retrieveRegexPattern() ?></pre></div>
+                    </div>
+                </div>
             <?php } ?>
+            <br>
         </div>
-    </div>
-</div>
-<br>
-
-<script src="js/script.js"></script>
+        <!--
+            Save/Load
+        -->
+<!--        <div id="tab3" class="container tab-pane"><br>-->
+<!--        </div>-->
+        <script src="js/script.js"></script>
 </body>
 </html>

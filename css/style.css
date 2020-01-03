@@ -5,6 +5,15 @@ body {
     font-family: 'PT Mono', monospace;
 }
 
+pre {
+    margin: 0;
+}
+
+
+p {
+    margin: 0.4em 0;
+}
+
 #accordion-container {
     padding: 0;
 }
@@ -13,18 +22,6 @@ body {
     height: 100px;
 }
 
-pre {
-    margin: 0;
-}
-
-.desc {
-    font-size: 0.8em;
-    color: #999;
-}
-
-p {
-    margin: 0.4em 0;
-}
 
 .tab-pane {
     background: #FFFFFF;
@@ -33,4 +30,26 @@ p {
 .col-md-12 hr {
     margin: 0.25em;
     opacity: 0.5;
+}
+
+.result-line-number {
+    display: none;
+}
+.non-priority {
+    color: #CCC;
+}
+.tool-desc {
+    font-size: 0.8em;
+    color: #999;
+    display: none;
+}
+
+.result-info {
+    display: block;
+}
+.right {
+    text-align: right;
+}
+.table td, .table th{
+    padding: 0.25em;
 }
