@@ -85,14 +85,16 @@ $c2 = 12 - $c1;
     -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link <?= $hasResult ? '' : 'active' ?>" data-toggle="tab" href="#tab1">Tool</a>
+            <a class="nav-link <?= $hasResult ? '' : 'active' ?>" data-toggle="tab" href="#tab1">regex-sql</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link <?= $hasResult ? 'active' : '' ?>" data-toggle="tab" href="#tab2">Result</a>
-        </li>
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" data-toggle="tab" href="#tab3">Save/Load</a>-->
-<!--        </li>-->
+        <?php if ($hasResult) { ?>
+            <li class="nav-item">
+                <a class="nav-link <?= $hasResult ? 'active' : '' ?>" data-toggle="tab" href="#tab2">Result</a>
+            </li>
+        <?php } ?>
+        <!--        <li class="nav-item">-->
+        <!--            <a class="nav-link" data-toggle="tab" href="#tab3">Save/Load</a>-->
+        <!--        </li>-->
     </ul>
     <div class="tab-content">
         <!--
@@ -116,7 +118,7 @@ $c2 = 12 - $c1;
                         <div class="row">
                             <div class="col-md-12"><h3>Data</h3></div>
                             <div class="col-md-<?= $c1 ?>">
-                                <div class="tool-desc">
+                                <div class="tool-desc right">
                                     <p>Each line in the <i>DATA</i> is parsed using the <i>REGEX</i> pattern</p>
                                     <p>Only <i>DATA</i> less
                                         than <?= number_format(Processor::RETAIN_DATA_MAX_LENGTH) ?>
@@ -329,87 +331,94 @@ $c2 = 12 - $c1;
         <!--
             Tab: Results
         -->
-        <div id="tab2" class="container tab-pane <?= $hasResult ? 'active' : 'fade' ?>"><br>
-            <div class="row">
-                <div class="col-md-12 non-priority">
-                    <h5>Options</h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-<?= $c1 ?> right non-priority">
-                    Show Line Numbers
-                </div>
-                <div class="col-md-<?= $c2 ?>">
-                    <input type="checkbox" onchange="toggle(this, 'result-line-number')" autocomplete="off">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-<?= $c1 ?> right non-priority">
-                    Show Summary
-                </div>
-                <div class="col-md-<?= $c2 ?>">
-                    <input type="checkbox" onchange="toggle(this, 'result-info')" autocomplete="off">
-                </div>
-            </div>
-            <hr>
-            <?php if ($hasResult) { ?>
+        <?php if ($hasResult) { ?>
+            <div id="tab2" class="container tab-pane <?= $hasResult ? 'active' : 'fade' ?>"><br>
                 <div class="row">
-                    <div class="col-md-12">
-                        <center><h3><?= $processor->retrieveDescription() ?></h3></center>
-                        <table id="outputTable" class="table table-bordered table-hover table-sm">
-                            <thead>
-                            <tr>
-                                <th class="result-line-number">#</th>
-                                <?php foreach ($output as $row) {
-                                    foreach ($row as $header => $v) { ?>
-                                        <th><?= $header ?></th>
-                                        <?php
-                                    }
-                                    break;
-                                } ?>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($output as $i => $row) { ?>
+                    <div class="col-md-12 non-priority">
+                        <h5>Options</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-<?= $c1 ?> right non-priority">
+                        Show Line Numbers
+                    </div>
+                    <div class="col-md-<?= $c2 ?>">
+                        <input type="checkbox" onchange="toggle(this, 'result-line-number')" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-<?= $c1 ?> right non-priority">
+                        Show Stats
+                    </div>
+                    <div class="col-md-<?= $c2 ?>">
+                        <input type="checkbox" onchange="toggle(this, 'result-info')" autocomplete="off" checked>
+                    </div>
+                </div>
+                <?php if ($hasResult) { ?>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="result-info">
+                                <h5 class="non-priority">Stats</h5>
+                                <div class="row">
+                                    <div class="col-md-<?= $c1 ?> right non-priority">Rows:</div>
+                                    <div class="col-md-<?= $c2 ?>"><?= count($output) ?></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-<?= $c1 ?> right non-priority">Query:</div>
+                                    <div class="col-md-<?= $c2 ?>">
+                                        <pre><?= $processor->retrieveSqlQuery() ?></pre>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-<?= $c1 ?> right non-priority">Regex:</div>
+                                    <div class="col-md-<?= $c2 ?>">
+                                        <pre><?= $processor->retrieveRegexPattern() ?></pre>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <hr>
+                            <center><h3><?= $processor->retrieveDescription() ?: 'Results' ?></h3></center>
+                            <table id="outputTable" class="table table-bordered table-hover table-sm">
+                                <thead>
                                 <tr>
-                                    <td class="result-line-number"><?= $i ?></td>
-                                    <?php foreach ($row as $v) { ?>
-                                        <td>
-                                            <?= $v ?>
-                                        </td>
-                                    <?php } ?>
+                                    <th class="result-line-number">#</th>
+                                    <?php foreach ($output as $row) {
+                                        foreach ($row as $header => $v) { ?>
+                                            <th><?= $header ?></th>
+                                            <?php
+                                        }
+                                        break;
+                                    } ?>
                                 </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($output as $i => $row) { ?>
+                                    <tr>
+                                        <td class="result-line-number"><?= $i ?></td>
+                                        <?php foreach ($row as $v) { ?>
+                                            <td>
+                                                <?= $v ?>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <hr>
-                <div class="result-info">
-                    <h3 class="non-priority">Stats</h3>
-                    <div class="row">
-                        <div class="col-md-<?=$c1?> right non-priority">Rows:</div>
-                        <div class="col-md-<?=$c2?>"><?= count($output) ?></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-<?=$c1?> right non-priority">Query:</div>
-                        <div class="col-md-<?=$c2?>"><pre><?= $processor->retrieveSqlQuery() ?></pre></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-<?=$c1?> right non-priority">Regex:</div>
-                        <div class="col-md-<?=$c2?>"><pre><?= $processor->retrieveRegexPattern() ?></pre></div>
-                    </div>
-                </div>
-            <?php } ?>
-            <br>
-        </div>
+                <?php } ?>
+                <br>
+            </div>
+        <?php } ?>
         <!--
             Save/Load
         -->
-<!--        <div id="tab3" class="container tab-pane"><br>-->
-<!--        </div>-->
+        <!--        <div id="tab3" class="container tab-pane"><br>-->
+        <!--        </div>-->
         <script src="js/script.js"></script>
 </body>
 </html>

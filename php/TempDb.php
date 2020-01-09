@@ -7,6 +7,8 @@ class TempDb
 {
     const BATCH_SIZE = 500;
 
+    const NO_RESULT_CHECK_QUERY = 'No result, please check the query';
+
     const TEMP_TABLE_PLACEHOLDER = 'table_1';
 
     /**
@@ -119,11 +121,15 @@ class TempDb
     public function select($query)
     {
         $results = [];
-        $res = $this->_db->query(
+        $result = $this->_db->query(
             str_replace(self::TEMP_TABLE_PLACEHOLDER, $this->_tableName, $query)
         );
-        while ($row = $res->fetchArray(SQLITE3_ASSOC)) {
-            $results[] = $row;
+        if ($result !== false) {
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $results[] = $row;
+            }
+        } else {
+            $results[] = ['' => self::NO_RESULT_CHECK_QUERY];
         }
 
         return $results;
