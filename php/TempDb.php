@@ -41,7 +41,8 @@ class TempDb
     public function __construct($tableName, $columns, $rows)
     {
         $time = microtime(true) * 10000;
-        $this->_databaseFile = "db-workspace/{$time}.db";
+        $file = tmpfile();
+        $this->_databaseFile = stream_get_meta_data($file)['uri'];
         $this->_tableName = $tableName;
         $this->_db = new SQLite3($this->_databaseFile);
         $this->_columns = $columns;

@@ -29,39 +29,10 @@ $c2 = 12 - $c1;
 </head>
 <body>
 <!--
-    Navigation Bar
--->
-<div class="row">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="/">indie.kiwi</a>
-        <button class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarCollapse"
-                aria-controls="navbarCollapse"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/regex-sql">
-                        regex-sql<span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/indiekiwi">Github</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
-<div class="row nav-space"></div>
-<!--
     Container
 -->
 <div class="container">
+    <br>
     <!--
         Messages
     -->
@@ -277,7 +248,6 @@ $c2 = 12 - $c1;
                                 <div class="form-group">
                     <textarea class="form-control"
                               name="sql-query"
-                              placeholder="SELECT * FROM tb;"
                               rows="3"><?= $processor->retrieveSqlQuery() ?></textarea>
                                 </div>
                             </div>

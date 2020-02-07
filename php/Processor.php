@@ -129,6 +129,15 @@ class Processor
                 $rows[] = $m;
             }
         }
+
+
+
+
+
+
+
+
+
         $db = new TempDb($tableName, $this->_columns, $rows);
 
         return $db->select($this->_getPost(self::REQUEST_POST_SQL_QUERY));
@@ -169,7 +178,7 @@ class Processor
      */
     public function retrieveSqlQuery(): string
     {
-        return $this->_getPost(self::REQUEST_POST_SQL_QUERY, '');
+        return $this->_getPost(self::REQUEST_POST_SQL_QUERY, 'SELECT * FROM tb;');
     }
 
     /**

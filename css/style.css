@@ -1,37 +1,24 @@
-
 body {
     background-color: #ECF0F1;
     color: #34495E;
     font-family: 'PT Mono', monospace;
 }
-
 pre {
     margin: 0;
 }
-
-
 p {
     margin: 0.4em 0;
 }
-
 #accordion-container {
     padding: 0;
 }
-
-.nav-space {
-    height: 100px;
-}
-
-
 .tab-pane {
     background: #FFFFFF;
 }
-
 .col-md-12 hr {
     margin: 0.25em;
     opacity: 0.5;
 }
-
 .result-line-number {
     display: none;
 }
@@ -43,7 +30,6 @@ p {
     color: #999;
     display: none;
 }
-
 .result-info {
     display: block;
 }
