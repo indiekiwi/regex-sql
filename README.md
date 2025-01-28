@@ -12,7 +12,7 @@ A web based tool to parse row based text data via a regular expression into a te
   </tr>
   <tr>
     <td>Data</td>
-    <td>Raw text which can may be pasted or uploaded using a file</td>
+    <td>Raw text which can be pasted as text or uploaded using a file</td>
   </tr>
   <tr>
     <td>Regex</td>
